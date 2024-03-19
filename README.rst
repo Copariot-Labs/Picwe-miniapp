@@ -1,4 +1,4 @@
-Flask App Builder
+Picwe bot & miniapp
 =================
 
 .. image:: https://github.com/dpgaspar/Flask-AppBuilder/workflows/Python/badge.svg
@@ -18,8 +18,7 @@ Flask App Builder
     :target: https://github.com/psf/black
 
 
-Simple and rapid application development framework, built on top of `Flask <http://flask.pocoo.org/>`_.
-includes detailed security, auto CRUD generation for your models, google charts and much more.
+Simple and rapid application of telegrama miniapp, built on top of `Flask <http://flask.pocoo.org/>`_.
 
 Extensive configuration of all functionality, easily integrate with normal Flask/Jinja2 development.
 
