@@ -9,12 +9,12 @@
         <script src="https://telegram.org/js/telegram-web-app.js"></script>
         <style>
             body {
-                background-color: #008872; /* 白色背景在大屏幕设备上 */
+                background-color: #008872; 
             }
         
             @media (max-width: 600px) {
                 body {
-                    background-color: #004d40; /* 灰色背景在小屏幕设备上 */
+                    background-color: #004d40;
                 }
             }
         </style>
@@ -41,11 +41,11 @@
 
         <!-- Telegram Mini Apps JavaScript -->
         <script>
-            // 检查 window.Telegram.WebApp 对象是否存在
+     
             if (window.Telegram && window.Telegram.WebApp) {
-                // 获取 initData
+  
                 var initData = window.Telegram.WebApp.initData;
-                // 将 initData 发送到服务器进行验证
+
                 fetch('/bot/verify_mini_apps?initData=' + encodeURIComponent(initData), {
                     method: 'GET'
                 }).then(response => {
