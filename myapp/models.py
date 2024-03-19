@@ -33,8 +33,8 @@ class User(UserMixin, db.Model):
     invitation_code = db.Column(db.String(64), unique=True)
     inviter_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     inviter = db.relationship('User', remote_side=[id], backref='invitees')
-    web3_address = db.Column(db.String(64), unique=True, nullable=True)  # 增加一个地址
-    is_web3_user = db.Column(db.Boolean, default=False)  # 判断是否metamask用户
+    web3_address = db.Column(db.String(64), unique=True, nullable=True) 
+    is_web3_user = db.Column(db.Boolean, default=False)  
     favorites = db.relationship('Favorite', backref='user', lazy='dynamic')
     attributes = db.relationship('UserAttribute', backref='user', lazy=True)
 
