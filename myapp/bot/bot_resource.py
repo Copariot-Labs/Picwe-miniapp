@@ -28,17 +28,17 @@ bot = TeleBot(TOKEN)
 bot.remove_webhook()
 
 
-LOGIN_URL = 'https://app.picwe.org/bot/tg_login' if status_of_pro == 0 else 'https://test.picwe.org/bot/tg_login'
-BOT_USERNAME = '@picwe_bot' if status_of_pro == 0 else '@picwetestbot'
-PHOTO_PATH = 'logo_mini.jpg' if status_of_pro == 0 else 'logo_mini.jpg'
+LOGIN_URL = 'https://app.picwe.org/bot/tg_login' 
+BOT_USERNAME = '@picwe_bot' 
+PHOTO_PATH = 'logo_mini.jpg'
 
-webhook_url = f'https://app.picwe.org/{TOKEN}' if status_of_pro == 0 else f'https://test.picwe.org/{TOKEN}'
+webhook_url = f'https://app.picwe.org/{TOKEN}' 
 
 bot.set_webhook(url=webhook_url)
 
 ############################## function ############################
 def get_decimal_value(symbol):
-    flag = "0"  # 实盘:0 , 模拟盘：1
+    flag = "0"  
 
     publicDataAPI = PublicData.PublicAPI(flag=flag)
     result = publicDataAPI.get_instruments(
