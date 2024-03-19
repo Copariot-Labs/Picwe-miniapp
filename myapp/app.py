@@ -24,7 +24,6 @@ db = SQLAlchemy()
 def create_app(config_filename=None):
     app = Flask(__name__, static_folder='build', static_url_path='/')
 
-    # 配置 SQLite 数据库
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///picwe.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['BABEL_DEFAULT_LOCALE'] = 'en'
@@ -62,21 +61,18 @@ cache = Cache(app, config={
 })
 
 logger.add('app.log', format="{time} {level} {message}", level="DEBUG", rotation="10 MB", compression="zip")
-
-# 初始化登录管理器    
+   
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login_admin"
 login_manager.remember_cookie_duration = timedelta(days=1)
 
-# 创建匿名用户类
 class AnonymousUser(AnonymousUserMixin):
     def is_admin(self):
         return False
 login_manager.anonymous_user = AnonymousUser
 
 proxy = ''
-# 0是主网，1是demo
 status_of_pro = 1
 
 
