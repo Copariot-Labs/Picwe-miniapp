@@ -8,16 +8,16 @@ networks = {
         'mainnet': {
             'CHAIN_NAME': 'polygon_mainnet',
             'TX_BASE_URL': 'https://polygonscan.com/tx/',
-            'TOKEN': '6210570739:AAG9FqWTHrLKXwjsZoQuKIMGYDCpvpn-TGY',
-            'simple_pUSDT_address': '0x94Daf67052B5fe73211105E3587CB645E5a874e3',
-            'pUSDT_address': '0xc2132D05D31c914a87C6611C10748AEb04B58e8F',
+            'TOKEN': ',
+            'simple_pUSDT_address': '',
+            'pUSDT_address': '',
         },
         'testnet': {
             'CHAIN_NAME': 'polygon_mumbai',
             'TX_BASE_URL': 'https://mumbai.polygonscan.com/tx/',
-            'TOKEN': '6651889657:AAGmEahuwzrg7zXMVXKnIuLNGR6jcaGy0x0',
-            'simple_pUSDT_address': '0x0ae64C11D072d7161068AD128f3EDe07F36f3fEE',
-            'pUSDT_address': '0xd1b9C2118075fF94c0bE63574159301F1609c5A4',
+            'TOKEN': '',
+            'simple_pUSDT_address': '',
+            'pUSDT_address': '',
         }
     },
     'ethereum': {
