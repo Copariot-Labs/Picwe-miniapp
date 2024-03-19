@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        {% block head %}
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+        <!-- Load Telegram Web App JavaScript library -->
+        <script src="https://telegram.org/js/telegram-web-app.js?1"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+        /> 
+        {% block styles %}
+            <!-- Bootstrap CSS -->
+            {{ bootstrap.load_css() }}
+            <style>
+                .card-img-top {
+                    width: 100%;
+                    height: calc(100% / 1.7);
+                    object-fit: cover;
+                }
+                .page {
+                    transition: transform 0.5s;
+                    width: 100%;
+                    height: 100vh;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                }
+                .page2 {
+                    top: 100%;
+                    transition: top 0.5s;
+                    width: 100%;
+                    height: 100vh;
+                    position: absolute;
+                    left: 0;
+                }
+                .swiper-container {
+                    width: 100%;
+                    height: 100%;
+                }
+
+                .swiper-slide {
+                    text-align: center;
+                    font-size: 18px;
+                    background: #002922;
+
+                    /* Center slide text vertically */
+                    display: -webkit-box;
+                    display: -ms-flexbox;
+                    display: -webkit-flex;
+                    display: flex;
+                    -webkit-box-pack: center;
+                    -ms-flex-pack: center;
+                    -webkit-justify-content: center;
+                    justify-content: center;
+                    -webkit-box-align: center;
+                    -ms-flex-align: center;
+                    -webkit-align-items: center;
+                    align-items: center;
+                }
+                .text-display {
+                    font-size: 0.7em;
+                    color: #e1fce5;
+                    font-weight: normal;
+                    text-align: left; /* 文本居中 */
+                    margin-bottom: 5px; /* 下边距 */
+                } 
+                body.no-scroll {
+                    overflow: hidden;
+                    height: 100vh;
+                    position: fixed;
+                    width: 100%;
+                } 
+				.btn {
+            	    text-align: left;
+            	}
+                body {
+                    background-color: #002922; 
+                    color: #ffffff; /* 白色 */
+                }
+                .container {
+                    background-color: #002922; 
+                }
+                .card {
+                    background-color: #002922; 
+                }
+            </style>
+        {% endblock %}
+
+        <title>Your page title</title>
+        {% endblock %}
+    </head>
+    <body class="no-scroll">
+        <!-- Page 1 -->
+        <div id="page1" class="page">
+            <div class="container"> <!-- Add this line -->
+                <!-- Top bar -->
+                <div class="d-flex flex-column p-3" style="background-color: #002922;">
+                    <div class="d-flex justify-content-between w-100">
+                        <button id="showBalanceButton" class="btn btn-primary">
+                            {{ username }}<br>
+                            Total assets：{{ '%.1f' % total_assets }}
+                        </button>
+                        <button id="showPriceButton" class="btn btn-secondary">Reference price</button>
+                    </div>
+                </div>
+
+                <!-- Your page content -->
+                {% block content %}
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        {% for post in posts %}
+                        <div class="swiper-slide">
+                            <div class="row mb-4">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <img class="card-img-top" src="{{ url_for('uploaded_file', filename=post.image) }}" alt="Post image">
+                                        <div class="card-body">
+                                            <h5 class="text-display">Title:{{ post.attributes[0].title }}</h5>
+                                            <h5 class="text-display">Token:{{ post.attributes[1].token }}</h5>
+                                            <h5 class="text-display">Trend:{{ post.attributes[3].trend }}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!-- Add Pagination -->
+                    <div class="swiper-pagination"></div>
+                    <!-- Add Navigation -->
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+                {% endblock %}
+            </div> <!-- Add this line -->
+        </div>
+
+        <!-- Page 2 -->
+        <div id="page2" class="page page2">
+            <div class="container">
+                <form>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Direction:</label>
+                        <div class="col-sm-10">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="side" id="buy" value="buy" checked>
+                                <label class="form-check-label" for="buy">Buy</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="side" id="sell" value="sell">
+                                <label class="form-check-label" for="sell">Sell</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="currency" class="col-sm-2 col-form-label">Select coin:</label>
+                        <div class="col-sm-10">
+                            <select id="currency" name="currency" class="form-control">
+                                {% for asset_type in asset_types %}
+                                    <option value="{{ asset_type }}">{{ asset_type }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="amount" class="col-sm-2 col-form-label">Purchase quantity:</label>
+                        <div class="col-sm-10">
+                            <input type="number" id="amount" name="amount" class="form-control" step="0.00000001">
+                        </div>
+                    </div>
+                    <div class="form-group row" style="margin-top: 20px;"> <!-- Add margin-top style here -->
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Confirm</button>
+                            <button type="button" class="btn btn-secondary" id="showTransactionsButton">Trade records</button>
+                            <button type="button" class="btn btn-secondary" id="backButton">Return</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Page 3 -->
+        <div id="page3" class="page page3" style="top: 100%;">
+            <div class="container">
+                <h5 class="modal-title" id="balanceModalLabel">Asset balance</h5>
+                {% for asset_type, balance in balances.items() %}
+                    <p>{{ asset_type }}: {{ '%.5f' % balance }}</p>
+                {% endfor %}
+                <button type="button" class="btn btn-secondary" id="backToPage1Button">Return</button>
+            </div>
+        </div>
+
+        <!-- Page 4 -->
+        <div id="page4" class="page page4" style="top: 100%;">
+            <div class="container">
+                <h5 class="modal-title" id="transactionModalLabel">Trade records</h5>
+                {% for order in user_orders %}
+                    <p>{{  order.timestampforbot }}: {{ order.side }} {{ order.symbol }} at {{ '%.1f' % order.price }} - cost {{ '%.1f' % (order.price * order.filled_quantity) }} POINT</p>
+                {% endfor %}
+                <button type="button" class="btn btn-secondary" id="backToPage2Button">Return</button>
+            </div>
+        </div>
+
+        <!-- Page 5 -->
+        <div id="page5" class="page page5" style="top: 100%;">
+            <div class="container">
+                <h5 class="modal-title" id="priceModalLabel">Reference price</h5>
+                {% for asset_type, price in prices.items() %}
+                    <p>{{ asset_type }}:{{ price }} USD</p>
+                {% endfor %}
+                <button type="button" class="btn btn-secondary" id="backToPage3Button">Return</button>
+            </div>
+        </div>
+
+        {% block scripts %}
+            <!-- Optional JavaScript -->
+            {{ bootstrap.load_js() }}
+            <!-- Telegram Mini Apps JavaScript -->
+            <script>
+                var swiper = new Swiper('.swiper-container', {
+                    slidesPerView: 1,
+                    spaceBetween: 10,
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                });
+                
+                Telegram.WebApp.ready();
+                Telegram.WebApp.MainButton.setText("Trade")
+                    .show()
+                    .onClick(function () {
+                        document.getElementById('page1').style.top = '-100%';
+                        document.getElementById('page2').style.top = '0';
+                    });
+                Telegram.WebApp.BackButton
+                    .show()
+                    .onClick(function () {
+                        document.getElementById('page1').style.top = '0';
+                        document.getElementById('page2').style.top = '100%';  
+                    });
+//page1        
+                // 当点击显示资产余额的按钮时，显示 page3
+                document.getElementById('showBalanceButton').addEventListener('click', function() {
+                    document.getElementById('page1').style.top = '-100%';
+                    document.getElementById('page3').style.top = '0';
+                });
+
+                // 当点击显示价格的按钮时，显示 page5
+                document.getElementById('showPriceButton').addEventListener('click', function() {
+                    document.getElementById('page1').style.top = '-100%';
+                    document.getElementById('page5').style.top = '0';
+                });
+
+//page2         
+
+                document.getElementById('backButton').addEventListener('click', function() {
+                    document.getElementById('page1').style.top = '0';
+                    document.getElementById('page2').style.top = '100%';
+                });
+
+                document.getElementById('showTransactionsButton').addEventListener('click', function() {
+                    document.getElementById('page2').style.top = '-100%';
+                    document.getElementById('page4').style.top = '0';
+                });
+                
+                // 添加的 jQuery 代码
+                $(document).ready(function(){
+                    $("form").on("submit", function(event){
+                        event.preventDefault();
+
+                        var currency = $("#currency").val();
+                        var amount = $("#amount").val();
+                        var side = $("input[name='side']:checked").val();
+
+                        $.ajax({
+                            url: '/bot/submit_market_order',
+                            type: 'post',
+                            contentType: 'application/json',
+                            data: JSON.stringify({ "symbol": currency, "quantity": amount, "side": side }),
+                            success: function(response){
+                                alert(response.message);
+                            },
+                            error: function(response){
+                                alert('Error: ' + response.responseJSON.error);
+                            }
+                        });
+                    });
+                });
+//page3
+                document.getElementById('backToPage1Button').addEventListener('click', function() {
+                    document.getElementById('page1').style.top = '0';
+                    document.getElementById('page3').style.top = '100%';
+                });
+
+//page4
+                document.getElementById('backToPage2Button').addEventListener('click', function() {
+                    document.getElementById('page2').style.top = '0';
+                    document.getElementById('page4').style.top = '100%';
+                });
+//page5
+                document.getElementById('backToPage3Button').addEventListener('click', function() {
+                    document.getElementById('page1').style.top = '0';
+                    document.getElementById('page5').style.top = '100%';
+                });
+
+            </script>
+        {% endblock %}
+    </body>
+</html>
