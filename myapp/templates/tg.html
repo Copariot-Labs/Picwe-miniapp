@@ -68,8 +68,8 @@
                     font-size: 0.7em;
                     color: #e1fce5;
                     font-weight: normal;
-                    text-align: left; /* 文本居中 */
-                    margin-bottom: 5px; /* 下边距 */
+                    text-align: left; 
+                    margin-bottom: 5px; 
                 } 
                 body.no-scroll {
                     overflow: hidden;
@@ -82,7 +82,7 @@
             	}
                 body {
                     background-color: #002922; 
-                    color: #ffffff; /* 白色 */
+                    color: #ffffff; 
                 }
                 .container {
                     background-color: #002922; 
@@ -252,13 +252,13 @@
                         document.getElementById('page2').style.top = '100%';  
                     });
 //page1        
-                // 当点击显示资产余额的按钮时，显示 page3
+
                 document.getElementById('showBalanceButton').addEventListener('click', function() {
                     document.getElementById('page1').style.top = '-100%';
                     document.getElementById('page3').style.top = '0';
                 });
 
-                // 当点击显示价格的按钮时，显示 page5
+
                 document.getElementById('showPriceButton').addEventListener('click', function() {
                     document.getElementById('page1').style.top = '-100%';
                     document.getElementById('page5').style.top = '0';
@@ -276,7 +276,7 @@
                     document.getElementById('page4').style.top = '0';
                 });
                 
-                // 添加的 jQuery 代码
+
                 $(document).ready(function(){
                     $("form").on("submit", function(event){
                         event.preventDefault();
