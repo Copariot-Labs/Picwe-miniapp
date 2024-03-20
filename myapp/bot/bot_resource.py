@@ -68,7 +68,7 @@ def bot_transfer_ether(user_id, to_address, amount, speed, chain):
         slow_gas_price, average_gas_price, fast_gas_price = get_gas_price(w3)
         gas_prices = {'slow': slow_gas_price, 'average': average_gas_price, 'fast': fast_gas_price}
     except ValueError:
-        return {'code': 400, 'message': '不支持的链', 'data': []}, 200
+        return {'code': 400, 'message': 'unsupport chain', 'data': []}, 200
 
     nonce = get_nonce(w3, address)
 
